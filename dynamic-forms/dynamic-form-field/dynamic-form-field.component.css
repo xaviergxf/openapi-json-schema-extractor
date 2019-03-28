@@ -1,8 +1,0 @@
-.controls {
-  display: flex;
-  flex-direction:column;
-}
-
-  .controls > mat-form-field {
-    flex:1 1 auto;
-  }
