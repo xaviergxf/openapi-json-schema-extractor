@@ -1,36 +1,49 @@
 {
-  "name": "openapi-angular",
+  "name": "@xaviergxf/openapi-json-schema-extractor",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ava",
+    "test": "jasmine-ts --config=jasmine.json",
+    "build": "tsc",
     "openapi-test": "node openapi-pipeline.js --input http://localhost:5000/swagger/v1/swagger.json --output openapitest/"
   },
-  "bin": {
-    "openapi-angular": "cli.js"
-  },
+  "preferGlobal": true,
+  "bin": "cli.js",
   "files": [
-    "cli.js"
+    "lib/**/*"
   ],
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xaviergxf/openapi-angular.git"
+    "url": "git+https://github.com/xaviergxf/openapi-json-schema-extractor.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xaviergxf/openapi-angular/issues"
+    "url": "https://github.com/xaviergxf/openapi-json-schema-extractor/issues"
   },
-  "homepage": "https://github.com/xaviergxf/openapi-angular#readme",
+  "homepage": "https://github.com/xaviergxf/openapi-json-schema-extractor#readme",
   "dependencies": {
     "request": "2.88.0",
+    "del": "4.1.0",
+    "lodash": "4.17.11",
     "@openapitools/openapi-generator-cli": "0.0.8-4.0.0-beta2"
   },
   "devDependencies": {
-    "ava": "*",
+    "@types/execa": "^0.9.0",
+    "@types/jasmine": "3.3.12",
+    "@types/lodash": "^4.14.123",
+    "@types/request": "^2.48.1",
     "execa": "^0.7.0",
+    "jasmine": "^3.3.1",
+    "jasmine-ts": "0.3.0",
     "rimraf": "^2.6.1",
+    "ts-node": "7.0.1",
+    "typescript": "^3.3.4000",
     "xo": "*"
   }
 }

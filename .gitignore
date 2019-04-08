@@ -82,3 +82,13 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# Compiled js
+**/*.js
+**/*.d.ts
+
+#Tests
+spec/results
+
+#Lib
+lib
