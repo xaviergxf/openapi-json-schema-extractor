@@ -1,6 +1,6 @@
 {
   "name": "@xaviergxf/openapi-json-schema-extractor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -30,8 +30,7 @@
   "dependencies": {
     "request": "2.88.0",
     "del": "4.1.0",
-    "lodash": "4.17.11",
-    "@openapitools/openapi-generator-cli": "0.0.8-4.0.0-beta2"
+    "lodash": "4.17.11"
   },
   "devDependencies": {
     "@types/execa": "^0.9.0",
