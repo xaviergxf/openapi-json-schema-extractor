@@ -22,7 +22,9 @@ export async function extractJsonSchemas(openapiFilename: string, outputDirector
     let jsonSchemas = modelMetadataGenerator.extractOpenApi2Schemas(openapiJson.definitions);
     Object.keys(jsonSchemas).forEach((jsonSchemaName: string) => {
         let outputSchemaFilename = path.join(outputDirectory, jsonSchemaName + '.ts');
-        const fileData = `export const ${jsonSchemaName} = ${JSON.stringify(jsonSchemas[jsonSchemaName], null, "\t")};`;
+        const fileData = `import {IJsonSchema} from '@xaviergxf/openapi-json-schema-extractor';
+
+export const ${jsonSchemaName}: IJsonSchema = ${JSON.stringify(jsonSchemas[jsonSchemaName], null, "\t")};`;
         fsAsyncWritefile(outputSchemaFilename, fileData);
     });
 }
