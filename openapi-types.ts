@@ -16,6 +16,8 @@ export namespace OpenAPI {
         params?: object;
         query?: object;
     }
+
+    export type SchemaObject = OpenAPIV3.SchemaObject | OpenAPIV2.SchemaObject;
 }
 
 export namespace OpenAPIV3 {
@@ -132,16 +134,16 @@ export namespace OpenAPIV3 {
     export type ArraySchemaObjectType = 'array';
     export type SchemaObject = ArraySchemaObject | NonArraySchemaObject;
 
-    interface ArraySchemaObject extends BaseSchemaObject {
+    export interface ArraySchemaObject extends BaseSchemaObject {
         type: ArraySchemaObjectType;
         items: ReferenceObject | SchemaObject;
     }
 
-    interface NonArraySchemaObject extends BaseSchemaObject {
+    export interface NonArraySchemaObject extends BaseSchemaObject {
         type: NonArraySchemaObjectType;
     }
 
-    interface BaseSchemaObject {
+    export interface BaseSchemaObject {
         // JSON schema allowed properties, adjusted for OpenAPI
         title?: string;
         description?: string;
@@ -627,6 +629,7 @@ export interface IJsonSchema {
     };
     enum?: any[];
     type?: string | string[];
+    format?:string;
     allOf?: IJsonSchema[];
     anyOf?: IJsonSchema[];
     oneOf?: IJsonSchema[];

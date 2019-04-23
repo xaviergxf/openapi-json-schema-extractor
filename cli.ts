@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { downloadAndExtractJsonSchemas } from './openapi-json-schema-extractor';
+import { extractJsonSchemas } from './openapi-json-schema-extractor';
 
 const args = process.argv;
 
@@ -10,7 +10,7 @@ export async function main() {
     if (inputKeyIndex >= 0 && outputKeyIndex >= 0) {
         let openapiUrlOrFilename = args[inputKeyIndex + 1];
         let outputDirectory = args[outputKeyIndex + 1];
-        downloadAndExtractJsonSchemas(openapiUrlOrFilename, outputDirectory);
+        await extractJsonSchemas(openapiUrlOrFilename, outputDirectory);
     }
 }
 

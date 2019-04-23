@@ -14,40 +14,33 @@ const fsAsyncMkdir = promisify(fs.mkdir);
 export async function extractJsonSchemas(openapiFilename: string, outputDirectory: string) {
     const fileContent: string = await fsAsyncReadfile(openapiFilename, 'utf8');
     let openapiJson = JSON.parse(fileContent);
-    if (fs.existsSync(outputDirectory))
-        await del(outputDirectory);
-    await fsAsyncMkdir(outputDirectory, { recursive: true });
-
-
     let jsonSchemas = modelMetadataGenerator.extractOpenApi2Schemas(openapiJson.definitions);
-    Object.keys(jsonSchemas).forEach((jsonSchemaName: string) => {
-        let outputSchemaFilename = path.join(outputDirectory, jsonSchemaName + '.ts');
-        const fileData = `import {IJsonSchema} from '@xaviergxf/openapi-json-schema-extractor';
+    const jsonSchemasCount = Object.keys(jsonSchemas).length;
+    if(jsonSchemasCount >0)
+    {
+        if (fs.existsSync(outputDirectory))
+            await del(outputDirectory);
+        await fsAsyncMkdir(outputDirectory, { recursive: true });
 
-export const ${jsonSchemaName}: IJsonSchema = ${JSON.stringify(jsonSchemas[jsonSchemaName], null, "\t")};`;
-        fsAsyncWritefile(outputSchemaFilename, fileData);
-    });
-}
+        let modelMetadataEnumFileText:string = 'export interface ModelMetadatas {\n';
+        let modelMetadataEnumFilename = path.join(outputDirectory, 'models-metadata.ts');
+        let indexFileText:string = '';
+        let indexFilename = path.join(outputDirectory, 'index.ts');
+        await Promise.all(Object.keys(jsonSchemas).map(async (jsonSchemaName: string, jsonSchemaIndex:number) => {
+            let outputSchemaFilename = path.join(outputDirectory, jsonSchemaName + 'ModelMetadata.ts');
+            const fileData = `import {OpenAPI} from '@xaviergxf/openapi-json-schema-extractor';
 
-export async function downloadAndExtractJsonSchemas(openapiUrlOrFilename: string, outputDirectory: string) {
-    if (fs.existsSync(outputDirectory))
-        await del(outputDirectory);
-    await fsAsyncMkdir(outputDirectory, { recursive: true });
+    export const ${jsonSchemaName}ModelMetadata: OpenAPI.SchemaObject = ${JSON.stringify(jsonSchemas[jsonSchemaName], null, "\t")};`;
+            await fsAsyncWritefile(outputSchemaFilename, fileData);
 
-    let openapiFilename = openapiUrlOrFilename;
-    let urlParseResult = url.parse(openapiUrlOrFilename);
-    if (urlParseResult && urlParseResult.hostname) {
-        openapiFilename = path.join(outputDirectory, 'openapi.json');
-        request(openapiUrlOrFilename).on('error', function (err) {
-            console.log('Error when downloading openapi: ' + err);
-        }).pipe(fs.createWriteStream(openapiFilename));
+            indexFileText = indexFileText+`export * from './${jsonSchemaName}ModelMetadata';\n\r`;
+
+            modelMetadataEnumFileText += `${jsonSchemaName}:any;\n`;
+        }));
+        modelMetadataEnumFileText+='}';
+        indexFileText = indexFileText+`export * from './models-metadata';\n\r`;
+
+        await fsAsyncWritefile(modelMetadataEnumFilename, modelMetadataEnumFileText);
+        await fsAsyncWritefile(indexFilename, indexFileText);
     }
-    else {
-        if (!fs.existsSync(openapiFilename))
-            throw new Error('--input filename ' + openapiFilename + ' doesn\'t exist');
-    }
-    const modelMetadataOutputDirectory = path.join(outputDirectory, 'model-metadata');
-    await fsAsyncMkdir(modelMetadataOutputDirectory, { recursive: true });
-
-    await this.extractJsonSchemas(openapiFilename, modelMetadataOutputDirectory);
 }

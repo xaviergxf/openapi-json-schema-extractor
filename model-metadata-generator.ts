@@ -50,7 +50,7 @@ export function mergePropertiesV2(schemaObject:OpenAPIV2.SchemaObject, allSchema
             delete schemaObject.allOf;
             result.push(schemaObject);
         }
-        if(schemaObject.properties)
+        else
             result.push(schemaObject);
     }
     return result;
