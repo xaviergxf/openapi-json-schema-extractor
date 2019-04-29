@@ -595,6 +595,7 @@ export namespace OpenAPIV2 {
 
 export interface IJsonSchema {
     id?: string;
+    $ref?:string;
     $schema?: string;
     title?: string;
     description?: string;
