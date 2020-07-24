@@ -1,7 +1,6 @@
 import "jasmine";
 import * as path from 'path';
 import * as fs from 'fs';
-import * as execa from 'execa';
 import { extractJsonSchemas } from '../openapi-json-schema-extractor';
 import { promisify } from 'util';
 

@@ -3,7 +3,7 @@
   "version": "1.0.16",
   "description": "",
   "scripts": {
-    "test": "jasmine-ts --config=jasmine.json",
+    "test": "jasmine-ts --config=spec/support/jasmine.json",
     "build": "tsc"
   },
   "preferGlobal": true,
