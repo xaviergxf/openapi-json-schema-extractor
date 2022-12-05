@@ -39,7 +39,7 @@
     "@types/request": "2.48.5",
     "execa": "4.0.3",
     "jasmine": "3.6.0",
-    "jasmine-ts": "0.3.0",
+    "jasmine-ts": "0.3.3",
     "rimraf": "3.0.2",
     "ts-node": "8.10.2",
     "typescript": "3.9.7",
